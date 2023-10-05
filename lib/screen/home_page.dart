@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:news/model/model_page.dart';
+import 'package:news/screen/details_page.dart';
 import 'package:news/statemanagement/news_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -92,7 +93,7 @@ class _HomePageState extends State<HomePage> {
                         padding: const EdgeInsets.all(8.0),
                         child: GestureDetector(
                           onTap: () {
-
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => DetailsPage(articles:  snapshot.data!.articles![index],),));
                           },
                           child: Container(
                             height: 150,
@@ -152,44 +153,47 @@ class _HomePageState extends State<HomePage> {
                                               crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                               children: [
-                                                Row(
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      "${snapshot.data!.articles![index].source!.name}",
-                                                      style: TextStyle(
-                                                          color: Colors.white),
-                                                    ),
-                                                    Text(
-                                                      "${snapshot.data!.articles![index].source!.id}",
-                                                      style: TextStyle(
-                                                          color: Colors.white),
-                                                    ),
-                                                  ],
-                                                ),
+                                                // Row(
+                                                //   mainAxisAlignment:
+                                                //   MainAxisAlignment
+                                                //       .spaceBetween,
+                                                //   children: [
+                                                //     Text(
+                                                //       "${snapshot.data!.articles![index].source!.name}",
+                                                //       style: TextStyle(
+                                                //           color: Colors.white),
+                                                //     ),
+                                                //     Text(
+                                                //       "${snapshot.data!.articles![index].source!.id}",
+                                                //       style: TextStyle(
+                                                //           color: Colors.white),
+                                                //     ),
+                                                //   ],
+                                                // ),
                                                 Text(
                                                   "${snapshot.data!.articles![index].title}",
                                                   style: TextStyle(
-                                                      color: Colors.white),
+                                                      color: Colors.white),maxLines: 2,
                                                 ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                                  children: [
-                                                    Icon(
-                                                      Icons.add_link_outlined,
-                                                      color: Colors.blue,
-                                                    ),
-                                                    Text(
-                                                      "${snapshot.data!.articles![index].publishedAt}",
-                                                      style: TextStyle(
-                                                          color: Colors.white),
-                                                    ),
-                                                  ],
-                                                )
+                                                Text("${snapshot.data!.articles![index].description}",
+                                                  style: TextStyle(
+                                                      color: Colors.white),maxLines: 3,),
+                                                // Row(
+                                                //   mainAxisAlignment:
+                                                //   MainAxisAlignment
+                                                //       .spaceBetween,
+                                                //   children: [
+                                                //     Icon(
+                                                //       Icons.add_link_outlined,
+                                                //       color: Colors.blue,
+                                                //     ),
+                                                //     Text(
+                                                //       "${snapshot.data!.articles![index].publishedAt}",
+                                                //       style: TextStyle(
+                                                //           color: Colors.white),
+                                                //     ),
+                                                //   ],
+                                                // )
                                               ],
                                             )),
                                       ],
