@@ -19,7 +19,8 @@ class _DetailsPageState extends State<DetailsPage> {
   Widget build(BuildContext context) {
     var newsProvider = Provider.of<NewsProvider>(context);
     return Scaffold(
-      // backgroundColor: newsProvider.gr,
+      backgroundColor: Color(0xff001429),
+
       appBar: AppBar(
         backgroundColor: Colors.white,
       ),
@@ -31,7 +32,7 @@ class _DetailsPageState extends State<DetailsPage> {
               "${widget.articles!.title}",
               style: TextStyle(
                   fontSize: 35,
-                  color:  Color(0xff2A2A36),
+                  color:  Colors.white,
 
                   fontWeight: FontWeight.w700),
             ),
@@ -45,14 +46,14 @@ class _DetailsPageState extends State<DetailsPage> {
                   "${widget.articles!.publishedAt}",
                   style: TextStyle(
                       fontSize: 16,
-                      color:  Color(0xff2A2A36)
+                      color:  Colors.white
                          ),
                 ),
                 Text(
                   "less them a minute",
                   style: TextStyle(
                       fontSize: 16,
-                      color:  Color(0xff2A2A36)
+                      color:  Colors.white
                           ),
                 ),
               ],
@@ -82,7 +83,7 @@ class _DetailsPageState extends State<DetailsPage> {
             Text("Description",
                 style: TextStyle(
                     fontSize: 26,
-                    color:Color(0xff2A2A36),
+                    color:Colors.white,
 
                     fontWeight: FontWeight.w600)),
             SizedBox(
@@ -91,7 +92,7 @@ class _DetailsPageState extends State<DetailsPage> {
             Text("${widget.articles!.description}",
                 style: TextStyle(
                     fontSize: 22,
-                    color:  Color(0xff2A2A36)
+                    color:  Colors.white
                         )),
             SizedBox(
               height: 20,
@@ -99,13 +100,13 @@ class _DetailsPageState extends State<DetailsPage> {
             Text("Contruct",
                 style: TextStyle(
                     fontSize: 26,
-                    color:  Color(0xff2A2A36), fontWeight: FontWeight.w600)),
+                    color:  Colors.white, fontWeight: FontWeight.w600)),
             SizedBox(
               height: 20,
             ),
             Text("${widget.articles!.content}",
                 style: TextStyle(
-                    fontSize: 22, color: Color(0xff2A2A36)
+                    fontSize: 22, color: Colors.white
                         )),
           ],
         ),

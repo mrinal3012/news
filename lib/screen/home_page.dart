@@ -1,9 +1,12 @@
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:news/model/model_page.dart';
 import 'package:news/screen/details_page.dart';
+import 'package:news/statemanagement/custom_http.dart';
 import 'package:news/statemanagement/news_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,9 +17,38 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  TextEditingController cityController = TextEditingController();
+  TextEditingController newsController = TextEditingController();
   NewsModel ? newsModel;
+  final scrollController=ScrollController();
+
+
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    scrollController.addListener(_scrollListener);
+    fetchPost();
+  }
+  void _scrollListener(){
+  
+    setState(() {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        pageNo = pageNo+1;
+
+      }else{
+        print("not call......................................");
+      }
+    });
+  }
+
+  Future <void> fetchPost() async {}
+
   var pageNo = 1;
+  String news = "world";
+
   // String sorted = cityController;
   @override
   Widget build(BuildContext context) {
@@ -36,13 +68,13 @@ class _HomePageState extends State<HomePage> {
             child: Padding(
                 padding: const EdgeInsets.only(bottom: 8,left: 5,right: 5),
                 child: TextField(
-                  controller: cityController,
-                  // onEditingComplete: () async {
-                  //   newsModel = await newsPorvider.getHomeData(
-                  //       cityController.text.toString()
-                  //   );
-                  //   setState(() {});
-                  // },
+                  controller: newsController,
+                  onEditingComplete: () async {
+                    newsModel = await newsPorvider.getHomeData(newsController.text.isEmpty ? news : newsController.text.toString() );
+                    setState(() {
+
+                    });
+                  },
                   decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -55,18 +87,19 @@ class _HomePageState extends State<HomePage> {
                       prefixIcon: Icon(Icons.search),
                       suffixIcon: IconButton(
                           onPressed: () {
-                            cityController.clear();
+                            newsController.clear();
                             setState(() {});
                           },
                           icon: Icon(Icons.clear_outlined))),
                 )),
 
           ),),
-          Expanded(flex: 10, child: ListView(
+          Expanded(flex: 10, child:
+          ListView(
             children: [
 
               FutureBuilder<NewsModel>(
-                future: newsPorvider.getHomeData(),
+                future: newsPorvider.getHomeData(newsController.text.isEmpty ? news : newsController.text.toString() ),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
@@ -83,8 +116,9 @@ class _HomePageState extends State<HomePage> {
                       style: TextStyle(color: Colors.black),
                     );
                   }
-                  return ListView.builder(
-
+                  return
+                    ListView.builder(
+                    controller: scrollController,
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: snapshot.data!.articles!.length,
@@ -153,47 +187,16 @@ class _HomePageState extends State<HomePage> {
                                               crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                               children: [
-                                                // Row(
-                                                //   mainAxisAlignment:
-                                                //   MainAxisAlignment
-                                                //       .spaceBetween,
-                                                //   children: [
-                                                //     Text(
-                                                //       "${snapshot.data!.articles![index].source!.name}",
-                                                //       style: TextStyle(
-                                                //           color: Colors.white),
-                                                //     ),
-                                                //     Text(
-                                                //       "${snapshot.data!.articles![index].source!.id}",
-                                                //       style: TextStyle(
-                                                //           color: Colors.white),
-                                                //     ),
-                                                //   ],
-                                                // ),
+
                                                 Text(
                                                   "${snapshot.data!.articles![index].title}",
                                                   style: TextStyle(
-                                                      color: Colors.white),maxLines: 2,
+                                                      color: Colors.white),maxLines: 1,
                                                 ),
                                                 Text("${snapshot.data!.articles![index].description}",
                                                   style: TextStyle(
                                                       color: Colors.white),maxLines: 3,),
-                                                // Row(
-                                                //   mainAxisAlignment:
-                                                //   MainAxisAlignment
-                                                //       .spaceBetween,
-                                                //   children: [
-                                                //     Icon(
-                                                //       Icons.add_link_outlined,
-                                                //       color: Colors.blue,
-                                                //     ),
-                                                //     Text(
-                                                //       "${snapshot.data!.articles![index].publishedAt}",
-                                                //       style: TextStyle(
-                                                //           color: Colors.white),
-                                                //     ),
-                                                //   ],
-                                                // )
+
                                               ],
                                             )),
                                       ],
@@ -218,4 +221,5 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
 }
